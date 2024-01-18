@@ -55,7 +55,7 @@ def evaluate(tokens):
             ops.pop()
             i += 1
         else:
-            while len(ops) and precedence(ops[-1]) >= precedence(tokens[i]):
+            while ops and precedence(ops[-1]) >= precedence(tokens[i]):
                 val2 = values.pop()
                 val1 = values.pop()
                 op = ops.pop()
