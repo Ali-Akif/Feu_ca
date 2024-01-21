@@ -1,9 +1,11 @@
+# Find shape
+
 import sys
 
 def read_file(file_path):
     try:
         with open(file_path, 'r') as file:
-            matrix = [list(line.strip("\n")) for line in file]
+            matrix = [[n for n in line.strip("\n")] for line in file]
             if not all(len(row) == len(matrix[0]) for row in matrix):
                 raise ValueError("Lines in files must all be the same lenght.")
             return matrix
