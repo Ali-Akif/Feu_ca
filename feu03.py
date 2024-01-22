@@ -60,8 +60,15 @@ def solve_sudoku(sudoku):
     return False
 
 def print_sudoku(sudoku):
-    for row in sudoku:
-        print("".join(str(num) for num in row))
+    for i, row in enumerate(sudoku):
+        if i % 3 == 0 and i != 0:
+            print("-" * 21)
+        print(" ".join(str(num) for num in row[:3]),
+              "|",
+              " ".join(str(num) for num in row[3:6]),
+              "|",
+              " ".join(str(num) for num in row[6:]))
+
 
 if len(sys.argv) != 2:
     print("Use : python file_name file_path")
