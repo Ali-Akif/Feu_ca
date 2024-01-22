@@ -61,6 +61,7 @@ def main(file_path):
     else:
         print("Pas de solution")
 
+
 if len(sys.argv) > 1:
     main(sys.argv[1])
 else:
