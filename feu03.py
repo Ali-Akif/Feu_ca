@@ -2,36 +2,49 @@
 
 import sys
 
+import sys
+
+def main(file_path):
+    sudoku = read_sudoku(file_path)
+    if solve_sudoku(sudoku):
+        print_sudoku(sudoku)
+    else:
+        print("No solutions")
+
 def read_sudoku(file_path):
     try:
         with open(file_path, 'r') as file:
-            for row in file:
-                for char in row.strip():
+            for line in file:
+                for char in line.strip():
                     if char != "." and not char.isdigit():
-                        print("Error in sudoku format")
-                        sys.exit(1)
+                        raise ValueError("Error in the sudoku format, must be numbers and 0 or '.' for missing value.")
         with open(file_path, 'r') as file:
-            sudoku = [[int(num) if num != '.' else 0 for num in line.strip()] for line in file]
-    except FileNotFoundError or ValueError or Exception or PermissionError:
-        print("Error in file reading.")
-        sys.exit(1)
+            sudoku = [[int(num) if num != "." else 0 for num in line.strip()] for line in file]
 
-    if len(sudoku) != 9 or not all(len(row) == 9 for row in sudoku):
-        print("Error: Sudoku grid should be 9x9")
+        if len(sudoku) != 9 or not all(len(row) == 9 for row in sudoku):
+            raise ValueError("Format of sudoku must be 9x9.")
+    except (FileNotFoundError, ValueError, PermissionError) as error:
+        print(error)
         sys.exit(1)
+    
     return sudoku
 
 def is_valid(sudoku, row, col, num):
-    if num in sudoku[row]:
+    if num in sudoku[row] or num in [sudoku[i][col] for i in range(9)]:
         return False
-    if num in [sudoku[i][col] for i in range(9)]:
-        return False
-    startRow, startCol = 3 * (row // 3), 3 * (col // 3)
-    for i in range(startRow, startRow + 3):
-        for j in range(startCol, startCol + 3):
+    start_row, start_col = 3 * ( row // 3 ), 3 * ( col // 3 )
+    for i in range (start_row, start_row + 3):
+        for j in range(start_col, start_col + 3):
             if sudoku[i][j] == num:
                 return False
     return True
+
+def find_empty(sudoku):
+    for i in range(9):
+        for j in range(9):
+            if sudoku[i][j] == 0:
+                return i, j
+    return False
 
 def solve_sudoku(sudoku):
     empty = find_empty(sudoku) 
@@ -46,25 +59,11 @@ def solve_sudoku(sudoku):
             sudoku[row][col] = 0
     return False
 
-def find_empty(sudoku):
-    for i in range(9): 
-        for j in range(9): 
-            if sudoku[i][j] == 0:
-                return i, j
-    return False
-
 def print_sudoku(sudoku):
     for row in sudoku:
         print("".join(str(num) for num in row))
 
-def main(file_path):
-    sudoku = read_sudoku(file_path)
-    if solve_sudoku(sudoku):
-        print_sudoku(sudoku)
-    else:
-        print("Pas de solution")
-
-if len(sys.argv) == 2:
-    main(sys.argv[1])
+if len(sys.argv) != 2:
+    print("Use : python file_name file_path")
 else:
-    print("Usage: python sudoku_solver.py [file path]")
+    main(sys.argv[1])
