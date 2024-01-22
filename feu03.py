@@ -61,7 +61,7 @@ def solve_sudoku(sudoku):
 
 def print_sudoku(sudoku):
     for i, row in enumerate(sudoku):
-        if i % 3 == 0 and i != 0:
+        if i == 3 or i == 6:
             print("-" * 21)
         print(" ".join(str(num) for num in row[:3]),
               "|",
