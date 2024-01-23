@@ -2,8 +2,6 @@
 
 import sys
 
-import sys
-
 def main(file_path):
     sudoku = read_sudoku(file_path)
     if solve_sudoku(sudoku):
