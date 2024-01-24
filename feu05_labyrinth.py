@@ -12,7 +12,7 @@ def generate_maze(height, width, wall_char, path_char, start_char, end_char):
                 row += start_char  # Départ
             elif y == 0 and x == exit:
                 row += end_char  # Arrivée
-            elif 1 <= y < height - 1 and 1 <= x < width - 1 and random.randint(0, 99) > 10 :
+            elif 1 <= y < height - 1 and 1 <= x < width - 1 and random.randint(0, 99) > 20 :
                 row += path_char  # Case vide
             else:
                 row += wall_char  # Obstacle
@@ -21,11 +21,7 @@ def generate_maze(height, width, wall_char, path_char, start_char, end_char):
 
 height = int(input("Entrez la hauteur du labyrinthe: "))
 width = int(input("Entrez la largeur du labyrinthe: "))
-wall_char = input("Caractère pour les obstacles: ")
-path_char = input("Caractère pour les cases vides: ")
-full_char = input("Caractère pour le chemin choisi: ")
-start_char = input("Caractère pour le départ: ")
-end_char = input("Caractère pour l'arrivée: ")
+wall_char, path_char, start_char, end_char, full_char = "*", " ", "1", "2", "o"
 maze = generate_maze(height, width, wall_char, path_char, start_char, end_char)
 
 
