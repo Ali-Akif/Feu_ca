@@ -2,18 +2,19 @@ import sys
 
 def parse_maze(filename):
     with open(filename, 'r') as file:
+        first_line = file.readline().strip()
         lines = file.readlines()
 
     maze = [list(line.strip()) for line in lines]
     start = exit = None
     for i, row in enumerate(maze):
         for j, char in enumerate(row):
-            if char == '1':  # Start character
+            if char == '1':
                 start = (i, j)
-            elif char == '2':  # End character
+            elif char == '2':
                 exit = (i, j)
 
-    return maze, start, exit
+    return maze, start, exit, first_line
 
 def print_maze(maze):
     for row in maze:
@@ -26,10 +27,10 @@ def find_shortest_path(maze, start, exit, wall_char):
     rows, cols = len(maze), len(maze[0])
     visited = [[False] * cols for _ in range(rows)]
     directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-    queue = [(start, 0, [])]  # Using a list as a queue
+    queue = [(start, 0, [])]
 
     while queue:
-        (x, y), steps, path = queue.pop(0)  # Pop from the start of the list
+        (x, y), steps, path = queue.pop(0)
         if (x, y) == exit:
             return path + [(x, y)]
         if visited[x][y] or maze[x][y] == wall_char:
@@ -42,22 +43,25 @@ def find_shortest_path(maze, start, exit, wall_char):
 
     return None
 
-if __name__ == "__main__":
+def main():
     if len(sys.argv) != 2:
-        print("Usage: python file_name.py labyrinth_path")
+        print("Use: python file_name.py labyrinth_path")
         sys.exit(1)
 
     labyrinth_path = sys.argv[1]
-    maze, start, exit = parse_maze(labyrinth_path)
-    wall_char = '*'  # Define the wall character
+    maze, start, exit, first_line = parse_maze(labyrinth_path)
+    wall_char = '*'
 
     shortest_path = find_shortest_path(maze, start, exit, wall_char)
 
     if shortest_path:
-        for y, x in shortest_path:
-            if maze[y][x] not in ['1', '2']:
-                maze[y][x] = 'o'
+        for x, y in shortest_path:
+            if maze[x][y] not in ['1', '2']:
+                maze[x][y] = 'o'
+        print(first_line)
         print_maze(maze)
         print(f"=> SORTIE ATTEINTE EN {len(shortest_path) - 1} COUPS !")
     else:
         print("Aucun chemin trouvé.")
+
+main()
