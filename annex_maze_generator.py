@@ -12,7 +12,7 @@ def generate_maze(height, width, wall_char, path_char, start_char, end_char):
                 row += start_char  # Départ
             elif y == 0 and x == exit:
                 row += end_char  # Arrivée
-            elif 1 <= y < height - 1 and 1 <= x < width - 1 and random.randint(0, 99) > 20 :
+            elif 1 <= y < height - 1 and 1 <= x < width - 1 and random.randint(0, 99) > 205 :
                 row += path_char  # Case vide
             else:
                 row += wall_char  # Obstacle
