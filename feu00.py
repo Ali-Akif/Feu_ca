@@ -2,6 +2,7 @@
 
 import sys
 
+
 def rectangle_printer(width, height):
     top_and_bottom = "o" + "-" * (width - 2) + "o" if width > 1 else "o"
     middle = "|" + " " * (width - 2) + "|" if width > 1 else "|" 
